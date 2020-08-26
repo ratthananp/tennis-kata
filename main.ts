@@ -5,20 +5,25 @@ class Game {
     public player2Points: number = 0;
 }
 
+export function isDeuce(poin: number): boolean {
+    return poin === 3 
+}
+
+export function isWinner(point1: number, point2: number): boolean {
+    return point1 - point2 >= 1
+}
+
 export function updateGameScore(player1Points: number, player2Points: number): Game {
     const game = new Game;
-    // if (player1Points > player2Points) {
-    game.player1Points = player1Points  
-    // } else if (player1Points > player2Points) {
+    game.player1Points = player1Points
     game.player2Points = player2Points
-    // }
     return game;
 }
 
 
 export function decideGameWinner(game: Game): string {
-    const winnerPlayer1 = game.player1Points - game.player2Points > 1 && game.player1Points >= 4
-    const winnerPlayer2 = game.player2Points - game.player1Points > 1 && game.player2Points >= 4
+    const winnerPlayer1 = isWinner(game.player1Points, game.player2Points) && game.player1Points >= 4
+    const winnerPlayer2 = isWinner(game.player2Points, game.player1Points) && game.player2Points >= 4
 
     if (winnerPlayer1) {
         return 'Player 1'
@@ -27,10 +32,12 @@ export function decideGameWinner(game: Game): string {
     }
 }
 
+
+
 export function printScore([player1Points, player2Points]: [number, number]): string {
-    const conditionDeuce = player1Points === 3 && player2Points ===3
-    const conditionAdvantage1 = player1Points - player2Points >= 1 && player1Points >= 3
-    const conditionAdvantage2 = player2Points - player1Points >= 1 && player2Points >= 3
+    const conditionDeuce = isDeuce(player1Points) && isDeuce(player2Points)
+    const conditionAdvantage1 = isWinner(player1Points, player2Points) && player1Points >= 3
+    const conditionAdvantage2 = isWinner(player2Points, player1Points) && player2Points >= 3
 
 
     if (conditionDeuce) {
