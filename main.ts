@@ -16,24 +16,28 @@ export function updateGameScore(player1Points: number, player2Points: number): G
 }
 
 
-export function decideGameWinner(game) {
-    if (game.player1Points - game.player2Points > 1 && game.player1Points >= 4) {
+export function decideGameWinner(game: Game): string {
+    const winnerPlayer1 = game.player1Points - game.player2Points > 1 && game.player1Points >= 4
+    const winnerPlayer2 = game.player2Points - game.player1Points > 1 && game.player2Points >= 4
+
+    if (winnerPlayer1) {
         return 'Player 1'
-    } else if (game.player2Points - game.player1Points > 1 && game.player2Points >= 4) {
+    } else if (winnerPlayer2) {
         return 'Player 2'
     }
 }
 
-export function printScore([player1Points, player2Points]) {
-    if (player1Points === 3 && player2Points ===3) {
+export function printScore([player1Points, player2Points]: [number, number]): string {
+    const conditionDeuce = player1Points === 3 && player2Points ===3
+    const conditionAdvantage1 = player1Points - player2Points >= 1 && player1Points >= 3
+    const conditionAdvantage2 = player2Points - player1Points >= 1 && player2Points >= 3
+
+
+    if (conditionDeuce) {
         return 'deuce'
-    }
-
-    if (player1Points - player2Points >= 1 && player1Points >= 3) {
+    } else if (conditionAdvantage1) {
         return 'advantage player 1'
-    }
-
-    if (player2Points - player1Points >= 1 && player2Points >= 3) {
+    } else if (conditionAdvantage2) {
         return 'advantage player 2'
     }
 
